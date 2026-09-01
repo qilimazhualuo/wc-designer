@@ -11,7 +11,7 @@ const packageRoot = dirname(fileURLToPath(import.meta.url))
 const externalPackages = [
         "vue",
         "antdv-next",
-        "wc-page-core",
+        "wc-core",
         "sortablejs",
         "@ant-design/icons-vue"
     ]

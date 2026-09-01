@@ -8,22 +8,22 @@ import type {
     FieldInputTypeOption,
     FieldSearchMode,
     PageSchema,
-} from 'wc-page-core'
-import type { PageField } from 'wc-page-core'
+} from 'wc-core'
+import type { PageField } from 'wc-core'
 import {
     DEFAULT_INPUT_TYPE_OPTIONS,
     applyPrimaryKeyField,
     createFieldKey,
     renumberFieldSort,
     resolveFieldInputType,
-} from 'wc-page-core'
+} from 'wc-core'
 import {
     defaultDatePrecision,
     getDatePrecisionOptions,
     getSearchModeOptions,
     isDateSearchMode,
     normalizeSearchMode,
-} from 'wc-page-core'
+} from 'wc-core'
 
 const props = withDefaults(defineProps<{
     fields: PageField[]
@@ -268,7 +268,7 @@ const bindSortable = async () => {
         return
     }
     sortableInstance = Sortable.create(tableBody, {
-        handle: '.wc-page-designer__drag-handle',
+        handle: '.wc-designer__drag-handle',
         animation: 150,
         draggable: '.ant-table-row:not(.ant-table-measure-row)',
         filter: '.ant-table-measure-row',
@@ -329,16 +329,16 @@ defineExpose({
 </script>
 
 <template>
-    <div class="wc-page-designer">
-        <div class="wc-page-designer__fields-header">
+    <div class="wc-designer">
+        <div class="wc-designer__fields-header">
             <div>
-                <div class="wc-page-designer__panel-title">
+                <div class="wc-designer__panel-title">
                     ????
-                    <span v-if="selectedTable" class="wc-page-designer__selected-table">
+                    <span v-if="selectedTable" class="wc-designer__selected-table">
                         ?{{ selectedTable }}?
                     </span>
                 </div>
-                <div v-if="tableComment" class="wc-page-designer__hint">
+                <div v-if="tableComment" class="wc-designer__hint">
                     {{ tableComment }}
                 </div>
             </div>
@@ -354,7 +354,7 @@ defineExpose({
             </a-button>
         </div>
 
-        <a-spin class="wc-page-designer__body" :spinning="loadingFields">
+        <a-spin class="wc-designer__body" :spinning="loadingFields">
             <div v-if="designerReady" ref="tableBodyElement">
                 <a-table
                     :columns="fieldColumns"
@@ -367,7 +367,7 @@ defineExpose({
                     <template #bodyCell="{ column, record }">
                         <template v-if="column.key === 'drag'">
                             <span
-                                class="wc-page-designer__drag-handle"
+                                class="wc-designer__drag-handle"
                                 title="????"
                             >
                                 <HolderOutlined />
@@ -398,7 +398,7 @@ defineExpose({
                             />
                         </template>
                         <template v-else-if="column.key === 'dbType'">
-                            <span class="wc-page-designer__db-type">{{ record.dbType || '-' }}</span>
+                            <span class="wc-designer__db-type">{{ record.dbType || '-' }}</span>
                         </template>
                         <template v-else-if="column.key === 'inputType'">
                             <a-select
@@ -417,7 +417,7 @@ defineExpose({
                             />
                         </template>
                         <template v-else-if="column.key === 'searchHeader'">
-                            <div class="wc-page-designer__search-cell">
+                            <div class="wc-designer__search-cell">
                                 <a-select
                                     :value="record.searchMode || 'none'"
                                     :options="getSearchModeOptions(resolveDesignerInputType(record))"
@@ -490,7 +490,7 @@ defineExpose({
 </template>
 
 <style scoped lang="less">
-.wc-page-designer {
+.wc-designer {
     display: flex;
     flex-direction: column;
     width: 100%;
