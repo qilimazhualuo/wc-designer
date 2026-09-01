@@ -73,17 +73,17 @@ const localFields = computed({
 const fieldColumns = computed(() => {
     const columns = [
         { key: 'drag', title: '', width: 48 },
-        { key: 'field', title: '???', width: 160 },
-        { key: 'title', title: '???', width: 160 },
-        { key: 'comment', title: '??', width: 180 },
-        { key: 'dbType', title: '?????', width: 140 },
-        { key: 'inputType', title: '????', width: 160 },
-        { key: 'showInTable', title: '????', width: 88, align: 'center' as const },
-        { key: 'searchHeader', title: '????', width: 220 },
-        { key: 'primaryKey', title: '??', width: 72, align: 'center' as const },
-        { key: 'required', title: '??', width: 80, align: 'center' as const },
-        { key: 'locked', title: '??', width: 90, align: 'center' as const },
-        { key: 'action', title: '??', width: 90, align: 'center' as const, fixed: 'right' as const },
+        { key: 'field', title: '字段名', width: 160 },
+        { key: 'title', title: '显示名', width: 160 },
+        { key: 'comment', title: '注释', width: 180 },
+        { key: 'dbType', title: '数据库类型', width: 140 },
+        { key: 'inputType', title: '输入控件', width: 160 },
+        { key: 'showInTable', title: '表格显示', width: 88, align: 'center' as const },
+        { key: 'searchHeader', title: '搜索表头', width: 220 },
+        { key: 'primaryKey', title: '主键', width: 72, align: 'center' as const },
+        { key: 'required', title: '必填', width: 80, align: 'center' as const },
+        { key: 'locked', title: '锁定', width: 90, align: 'center' as const },
+        { key: 'action', title: '操作', width: 90, align: 'center' as const, fixed: 'right' as const },
     ]
     if (props.extensionMode) {
         return columns.filter((columnItem) => (
@@ -219,7 +219,7 @@ const handleAddField = () => {
         {
             key: createFieldKey(),
             field: `field_${nextSort}`,
-            title: `??${nextSort}`,
+            title: `字段${nextSort}`,
             comment: '',
             inputType: 'input' as FieldInputType,
             required: false,
@@ -333,9 +333,9 @@ defineExpose({
         <div class="wc-designer__fields-header">
             <div>
                 <div class="wc-designer__panel-title">
-                    ????
+                    字段配置
                     <span v-if="selectedTable" class="wc-designer__selected-table">
-                        ?{{ selectedTable }}?
+                        （{{ selectedTable }}）
                     </span>
                 </div>
                 <div v-if="tableComment" class="wc-designer__hint">
@@ -350,7 +350,7 @@ defineExpose({
                 <template #icon>
                     <PlusOutlined />
                 </template>
-                ????
+                新增字段
             </a-button>
         </div>
 
@@ -368,7 +368,7 @@ defineExpose({
                         <template v-if="column.key === 'drag'">
                             <span
                                 class="wc-designer__drag-handle"
-                                title="????"
+                                title="拖拽排序"
                             >
                                 <HolderOutlined />
                             </span>
@@ -377,15 +377,14 @@ defineExpose({
                             <a-input
                                 :value="record.field"
                                 :disabled="record.locked"
-                                placeholder="???"
+                                placeholder="字段名"
                                 @update:value="(value) => patchField(record.key, { field: String(value || '') })"
                             />
                         </template>
                         <template v-else-if="column.key === 'title'">
                             <a-input
                                 :value="record.title"
-                                :disabled="isExtensionCoreField(record)"
-                                placeholder="???"
+                                placeholder="显示名"
                                 @update:value="(value) => patchField(record.key, { title: String(value || '') })"
                             />
                         </template>
@@ -393,7 +392,7 @@ defineExpose({
                             <a-input
                                 :value="record.comment || ''"
                                 :disabled="isExtensionCoreField(record) || (record.locked && record.lockReason === 'geometry')"
-                                placeholder="??"
+                                placeholder="注释"
                                 @update:value="(value) => patchField(record.key, { comment: String(value || '') })"
                             />
                         </template>
@@ -456,14 +455,14 @@ defineExpose({
                             <a-tag v-if="record.locked" color="orange">
                                 {{
                                     record.lockReason === 'geometry'
-                                        ? '??'
+                                        ? '几何'
                                         : record.lockReason === 'pk'
-                                            ? '??'
+                                            ? '主键'
                                             : record.lockReason === 'audit'
-                                                ? '??'
+                                                ? '审计'
                                                 : record.lockReason === 'core'
-                                                    ? '??'
-                                                    : '??'
+                                                    ? '内置'
+                                                    : '锁定'
                                 }}
                             </a-tag>
                             <span v-else>-</span>
@@ -478,13 +477,13 @@ defineExpose({
                                 <template #icon>
                                     <DeleteOutlined />
                                 </template>
-                                ??
+                                删除
                             </a-button>
                         </template>
                     </template>
                 </a-table>
             </div>
-            <a-empty v-else :description="extensionMode ? '????' : '????????'" />
+            <a-empty v-else :description="extensionMode ? '暂无扩展字段' : '请选择左侧数据表'" />
         </a-spin>
     </div>
 </template>
